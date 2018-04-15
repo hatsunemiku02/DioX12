@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="RenderSystem">
+      <UniqueIdentifier>{76cfbce0-3ad4-4e13-943f-6c0a5a1914ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderApp">
+      <UniqueIdentifier>{8689558b-b6e2-45e5-90c6-b4ee7022077c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12Render.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem\DX12Device.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem\DX12Shader.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem\DX12VBO.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem\d3dx12.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem\RenderUtil.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem\DX12CMDList.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem\DX12PSO.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem\DX12RootSig.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem\DX12CBV.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem\UploadBuffer.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderApp\RenderItem.h">
+      <Filter>RenderApp</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderApp\Material.h">
+      <Filter>RenderApp</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderApp\Geometry.h">
+      <Filter>RenderApp</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderApp\ConstantBufferCache.h">
+      <Filter>RenderApp</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderApp\SimplePipeline.h">
+      <Filter>RenderApp</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem\DX12DESCHandle.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12Render.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem\DX12Device.cpp">
+      <Filter>RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem\DX12Shader.cpp">
+      <Filter>RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem\DX12VBO.cpp">
+      <Filter>RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem\DX12CMDList.cpp">
+      <Filter>RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem\DX12PSO.cpp">
+      <Filter>RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem\DX12RootSig.cpp">
+      <Filter>RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem\RenderUtil.cpp">
+      <Filter>RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem\DX12CBV.cpp">
+      <Filter>RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderApp\RenderItem.cpp">
+      <Filter>RenderApp</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderApp\Material.cpp">
+      <Filter>RenderApp</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderApp\Geometry.cpp">
+      <Filter>RenderApp</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderApp\ConstantBufferCache.cpp">
+      <Filter>RenderApp</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderApp\SimplePipeline.cpp">
+      <Filter>RenderApp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DX12Render.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="DX12Render.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
