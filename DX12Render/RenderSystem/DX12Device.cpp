@@ -172,7 +172,7 @@ void DX12Device::Init(UINT width,UINT height, HWND hwnd)
 	matHeapDesc.NumDescriptors = DescHeapMaxSize;
 	matHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	matHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	ThrowIfFailed(m_device->CreateDescriptorHeap(&matHeapDesc, IID_PPV_ARGS(&m_MatDescHeap)));
+	ThrowIfFailed(m_device->CreateDescriptorHeap(&matHeapDesc, IID_PPV_ARGS(&m_ConstantBufferDescHeap)));
 	
 }
 
@@ -355,15 +355,17 @@ void DX12Device::DrawInstance(UINT instanceCount, UINT vertecCount, UINT startVe
 
 DX12DESCHandle DX12Device::AllocDescHandle()
 {
-	for (int i = 0; i < m_MatDescHeapUsage.size(); i++)
+	for (int i = 0; i < m_ConstantBufferDescHeapUsage.size(); i++)
 	{
-		if (m_MatDescHeapUsage[i] == false)
+		if (m_ConstantBufferDescHeapUsage[i] == false)
 		{
-			m_MatDescHeapUsage[i] = true;
+			m_ConstantBufferDescHeapUsage[i] = true;
 			DX12DESCHandle handle;
 			handle.m_Index = i;
-			handle.m_Handle = m_MatDescHeap->GetCPUDescriptorHandleForHeapStart() ;
-			handle.m_Handle.ptr += m_DescriptorSize * i;
+			handle.m_GPUHandle = m_ConstantBufferDescHeap->GetGPUDescriptorHandleForHeapStart() ;
+			handle.m_GPUHandle.ptr += m_DescriptorSize * i;
+			handle.m_CPUHandle = m_ConstantBufferDescHeap->GetCPUDescriptorHandleForHeapStart();
+			handle.m_CPUHandle.ptr += m_DescriptorSize * i;
 			return std::move(handle);
 		}
 	}
@@ -371,7 +373,7 @@ DX12DESCHandle DX12Device::AllocDescHandle()
 
 void DX12Device::ReleaseDescHandle(UINT index)
 {
-	m_MatDescHeapUsage[index] = false;
+	m_ConstantBufferDescHeapUsage[index] = false;
 }
 
 _Use_decl_annotations_

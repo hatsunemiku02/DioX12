@@ -1,5 +1,6 @@
 #include "DX12RootSig.h"
 #include <d3dcommon.h>
+#include <vector>
 
 #include "RenderUtil.h"
 #include "DX12Device.h"
@@ -16,22 +17,39 @@ DX12RootSig::~DX12RootSig()
 
 }
 
-void DX12RootSig::SetupRootSig(const DX12Device& device)
+void DX12RootSig::SetupRootSig(const DX12Device& device, UINT cb, UINT texture, UINT sampler, UINT uav)
 {
- 	CD3DX12_DESCRIPTOR_RANGE cbvTable0;
- 	cbvTable0.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 2, 0);
- 
-  	CD3DX12_DESCRIPTOR_RANGE cbvTable1;
-  	cbvTable1.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 1);
+	std::vector<CD3DX12_ROOT_PARAMETER> rootParamArr;
+	rootParamArr.resize(cb + texture + sampler+ uav);
+	for (int i=0;i<cb;i++)
+	{
+		CD3DX12_DESCRIPTOR_RANGE cbvTable;
+		cbvTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, i);
+		rootParamArr[i].InitAsDescriptorTable(1, &cbvTable);
+	}
 
-	// Root parameter can be a table, root descriptor or root constants.
-	CD3DX12_ROOT_PARAMETER slotRootParameter[1];
+	for (int i = cb; i < texture+cb; i++)
+	{
+		CD3DX12_DESCRIPTOR_RANGE srvTable;
+		srvTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, i);
+		rootParamArr[i].InitAsDescriptorTable(1, &srvTable);
+	}
 
-	// Perfomance TIP: Order from most frequent to least frequent.
-	slotRootParameter[0].InitAsDescriptorTable(1, &cbvTable0);
-	slotRootParameter[1].InitAsDescriptorTable(1, &cbvTable1);
+	for (int i = texture + cb; i < texture + cb+sampler; i++)
+	{
+		CD3DX12_DESCRIPTOR_RANGE samplerTable;
+		samplerTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SAMPLER, 1, i);
+		rootParamArr[i].InitAsDescriptorTable(1, &samplerTable);
+	}
 
-	CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(2, slotRootParameter,
+	for (int i = texture + cb+ sampler; i < texture + cb + sampler+ uav; i++)
+	{
+		CD3DX12_DESCRIPTOR_RANGE uavTable;
+		uavTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, i);
+		rootParamArr[i].InitAsDescriptorTable(1, &uavTable);
+	}
+
+	CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(rootParamArr.size(), &rootParamArr[0],
 		0, nullptr,
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 

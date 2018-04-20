@@ -81,6 +81,12 @@
     <ClInclude Include="RenderSystem\DX12DESCHandle.h">
       <Filter>RenderSystem</Filter>
     </ClInclude>
+    <ClInclude Include="RenderSystem\ConstantBuffer.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem\DX12RootSigContainer.h">
+      <Filter>RenderSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -127,6 +133,12 @@
     </ClCompile>
     <ClCompile Include="RenderApp\SimplePipeline.cpp">
       <Filter>RenderApp</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem\ConstantBuffer.cpp">
+      <Filter>RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem\DX12RootSigContainer.cpp">
+      <Filter>RenderSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

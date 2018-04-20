@@ -11,11 +11,12 @@ public:
 	DX12RootSig();
 	~DX12RootSig();
 
-	void SetupRootSig(const DX12Device& device);
+	void SetupRootSig(const DX12Device& device,UINT cb,UINT texture,UINT sampler, UINT uav);
 	ID3D12RootSignature* GetRootSig() const
 	{
 		return m_rootSignature.Get();
 	}
-private:
+protected:
+
 	ComPtr<ID3D12RootSignature> m_rootSignature;
 };

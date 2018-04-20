@@ -64,6 +64,11 @@ public:
 	{
 		return m_frameIndex;
 	}
+
+	UINT GetDescriptorSize() const
+	{
+		return m_DescriptorSize;
+	}
 	static const UINT FrameCount = 2;
 
 	CD3DX12_VIEWPORT m_viewport;
@@ -75,8 +80,9 @@ public:
 
 	void ReleaseDescHandle(UINT index);
 
-	ComPtr<ID3D12DescriptorHeap> m_MatDescHeap;
-	std::bitset<DescHeapMaxSize> m_MatDescHeapUsage;
+
+	ComPtr<ID3D12DescriptorHeap> m_ConstantBufferDescHeap;
+	std::bitset<DescHeapMaxSize> m_ConstantBufferDescHeapUsage;
 
 	ComPtr<ID3D12Resource> m_renderTargets[FrameCount];
 	UINT m_DescriptorSize;

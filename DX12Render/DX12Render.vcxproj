@@ -29,7 +29,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -100,16 +100,18 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>F:\偷偷的干活！\DioX12\DX12Render;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>dxgi.lib;d3d12.lib;D3DCompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -149,13 +151,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="DX12Render.h" />
     <ClInclude Include="RenderApp\ConstantBufferCache.h" />
     <ClInclude Include="RenderApp\Geometry.h" />
     <ClInclude Include="RenderApp\Material.h" />
     <ClInclude Include="RenderApp\RenderItem.h" />
     <ClInclude Include="RenderApp\SimplePipeline.h" />
+    <ClInclude Include="RenderSystem\ConstantBuffer.h" />
     <ClInclude Include="RenderSystem\d3dx12.h" />
     <ClInclude Include="RenderSystem\DX12CBV.h" />
     <ClInclude Include="RenderSystem\DX12CMDList.h" />
@@ -163,6 +165,7 @@
     <ClInclude Include="RenderSystem\DX12Device.h" />
     <ClInclude Include="RenderSystem\DX12PSO.h" />
     <ClInclude Include="RenderSystem\DX12RootSig.h" />
+    <ClInclude Include="RenderSystem\DX12RootSigContainer.h" />
     <ClInclude Include="RenderSystem\DX12Shader.h" />
     <ClInclude Include="RenderSystem\DX12VBO.h" />
     <ClInclude Include="RenderSystem\RenderUtil.h" />
@@ -172,18 +175,19 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="DX12Render.cpp" />
     <ClCompile Include="RenderApp\ConstantBufferCache.cpp" />
     <ClCompile Include="RenderApp\Geometry.cpp" />
     <ClCompile Include="RenderApp\Material.cpp" />
     <ClCompile Include="RenderApp\RenderItem.cpp" />
     <ClCompile Include="RenderApp\SimplePipeline.cpp" />
+    <ClCompile Include="RenderSystem\ConstantBuffer.cpp" />
     <ClCompile Include="RenderSystem\DX12CBV.cpp" />
     <ClCompile Include="RenderSystem\DX12CMDList.cpp" />
     <ClCompile Include="RenderSystem\DX12Device.cpp" />
     <ClCompile Include="RenderSystem\DX12PSO.cpp" />
     <ClCompile Include="RenderSystem\DX12RootSig.cpp" />
+    <ClCompile Include="RenderSystem\DX12RootSigContainer.cpp" />
     <ClCompile Include="RenderSystem\DX12Shader.cpp" />
     <ClCompile Include="RenderSystem\DX12VBO.cpp" />
     <ClCompile Include="RenderSystem\RenderUtil.cpp" />

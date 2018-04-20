@@ -66,7 +66,7 @@ void SimplePipeline::BeforeRender()
 	// Indicate that the back buffer will be used as a render target.
 	m_pCMDList->GetCMDList()->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_pDevice->m_renderTargets[m_pDevice->GetCurrentFrameIndex()].Get(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
 
-	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_pDevice->m_rtvHeap->GetCPUDescriptorHandleForHeapStart(), m_pDevice->GetCurrentFrameIndex(), m_pDevice->m_rtvDescriptorSize);
+	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_pDevice->m_rtvHeap->GetCPUDescriptorHandleForHeapStart(), m_pDevice->GetCurrentFrameIndex(), m_pDevice->m_DescriptorSize);
 	m_pCMDList->GetCMDList()->OMSetRenderTargets(1, &rtvHandle, FALSE, nullptr);
 
 
@@ -79,23 +79,18 @@ void SimplePipeline::Render()
 {
 	for (int i=0;i<m_RenderItems.size();i++)
 	{
+		//vertex buffer
 		m_pCMDList->SetVBO(&(*(m_RenderItems[i]->m_pGeometry->m_VBO)));
+		//pso and root sig
 		m_pCMDList->SetPSO(&(*(m_RenderItems[i]->m_pMaterial->m_pPSO)));
-
-		UploadBufferDynamic* pobjbuffer = m_ObjBuffers[m_pDevice->GetCurrentFrameIndex()].GetBuffer(nullptr);
-		D3D12_GPU_VIRTUAL_ADDRESS objaddress = pobjbuffer->Resource()->GetGPUVirtualAddress() + (m_RenderItems[i]->m_ObjBufferIndex * sizeof(ObjectBuffer));
-		m_pCMDList->GetCMDList()->SetGraphicsRootConstantBufferView(0, objaddress);
-	//	m_pCMDList->GetCMDList()->SetGraphicsRootDescriptorTable()
-
-
-	   UploadBufferDynamic* pmatbuffer =	m_ConstantBuffers[m_pDevice->GetCurrentFrameIndex()].GetBuffer(m_RenderItems[i]->m_pMaterial->m_pShader);
-	   if (pmatbuffer!=NULL)
-	   {
-		   D3D12_GPU_VIRTUAL_ADDRESS mataddress = pmatbuffer->Resource()->GetGPUVirtualAddress() + m_RenderItems[i]->m_pMaterial->GetOffetInCache();
-		   m_pCMDList->GetCMDList()->SetGraphicsRootConstantBufferView(1, mataddress);
-	   }
-	 
-
+		//root sig param
+	
+		for (int n=0;n<m_RenderItems[i]->m_pMaterial->m_ConstantBuffers.size();n++)
+		{
+			m_pCMDList->GetCMDList()->SetGraphicsRootDescriptorTable(i, m_RenderItems[i]->m_pMaterial->m_ConstantBuffers[n].GetDescHandle().m_GPUHandle);
+		}
+		//TO DO TEXTURE SAMPLER UAV;
+		//...
 		m_pCMDList->DrawInstanced(3, 1, 0, 0);
 	}
 }
@@ -134,7 +129,7 @@ void SimplePipeline::BuildConstantBuffer()
 			D3D12_GPU_VIRTUAL_ADDRESS cbAddress = pBuffer->Resource()->GetGPUVirtualAddress();
 
 			auto handle = CD3DX12_CPU_DESCRIPTOR_HANDLE(m_ConstantBuffers[m_pDevice->GetCurrentFrameIndex()].m_cbvHeap->GetCPUDescriptorHandleForHeapStart());
-			handle.Offset(offset, m_pDevice->m_rtvDescriptorSize);
+			handle.Offset(offset, m_pDevice->m_DescriptorSize);
 
 			D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc;
 			cbvDesc.BufferLocation = cbAddress;
@@ -158,7 +153,7 @@ void SimplePipeline::BuildConstantBuffer()
 		D3D12_GPU_VIRTUAL_ADDRESS cbAddress = pBuffer->Resource()->GetGPUVirtualAddress();
 
 		auto handle = CD3DX12_CPU_DESCRIPTOR_HANDLE(m_ObjBuffers[m_pDevice->GetCurrentFrameIndex()].m_cbvHeap->GetCPUDescriptorHandleForHeapStart());
-		handle.Offset(i, m_pDevice->m_rtvDescriptorSize);
+		handle.Offset(i, m_pDevice->m_DescriptorSize);
 
 		D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc;
 		cbvDesc.BufferLocation = cbAddress;
