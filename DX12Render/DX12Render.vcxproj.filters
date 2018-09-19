@@ -87,6 +87,9 @@
     <ClInclude Include="RenderSystem\DX12RootSigContainer.h">
       <Filter>RenderSystem</Filter>
     </ClInclude>
+    <ClInclude Include="RenderApp\RenderPipeline.h">
+      <Filter>RenderApp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -139,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="RenderSystem\DX12RootSigContainer.cpp">
       <Filter>RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderApp\RenderPipeline.cpp">
+      <Filter>RenderApp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

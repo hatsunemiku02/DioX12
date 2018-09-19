@@ -12,6 +12,8 @@ public:
 	virtual ~DX12CMDList();
 	void SetupDirectCMDList(const DX12Device& device);
 
+	void SetupDirectCMDList(const std::shared_ptr<DX12Device>& device);
+
 	//void SetShader(DX12Shader* pShader);
 	void Reset(const DX12Device* pDevice);
 
@@ -25,6 +27,9 @@ public:
 
 //	void BeforeRender(const DX12Device* pDevice);
 
+	void Sigal();
+	void Wait();
+
 	void SetDoneNum(UINT64);
 
 	UINT64 GetDoneNum() const
@@ -37,9 +42,14 @@ public:
 		return m_commandList.Get();
 	}
 private:
-	DX12RootSig * m_pCurrentRootSig;
+	std::shared_ptr<DX12Device> m_pDevice;
+	DX12RootSig* m_pCurrentRootSig;
 	DX12PSO * m_pCurrentPSO;
+	//ComPtr<ID3D12CommandAllocator> m_cmdAllocator;
 	ComPtr<ID3D12GraphicsCommandList> m_commandList;
 	UINT64 m_ListDone;
+	ComPtr<ID3D12Fence> m_fence;
+	UINT64 m_fenceVal;
+	HANDLE m_fenceEvent;
 
 };

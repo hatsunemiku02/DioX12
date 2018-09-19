@@ -106,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>F:\偷偷的干活！\DioX12\DX12Render;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\DioX12\DX12Render\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -156,6 +156,7 @@
     <ClInclude Include="RenderApp\Geometry.h" />
     <ClInclude Include="RenderApp\Material.h" />
     <ClInclude Include="RenderApp\RenderItem.h" />
+    <ClInclude Include="RenderApp\RenderPipeline.h" />
     <ClInclude Include="RenderApp\SimplePipeline.h" />
     <ClInclude Include="RenderSystem\ConstantBuffer.h" />
     <ClInclude Include="RenderSystem\d3dx12.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="RenderApp\Geometry.cpp" />
     <ClCompile Include="RenderApp\Material.cpp" />
     <ClCompile Include="RenderApp\RenderItem.cpp" />
+    <ClCompile Include="RenderApp\RenderPipeline.cpp" />
     <ClCompile Include="RenderApp\SimplePipeline.cpp" />
     <ClCompile Include="RenderSystem\ConstantBuffer.cpp" />
     <ClCompile Include="RenderSystem\DX12CBV.cpp" />

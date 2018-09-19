@@ -16,10 +16,40 @@ DX12CMDList::~DX12CMDList()
 
 void DX12CMDList::SetupDirectCMDList(const DX12Device& device)
 {
+	m_fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	if (m_fenceEvent == nullptr)
+	{
+		ThrowIfFailed(HRESULT_FROM_WIN32(GetLastError()));
+	}
+
 	ThrowIfFailed(device.GetDX12Device()->CreateCommandList(
 		0,
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
 		device.GetCurrentCMDAlloctor(), // Associated command allocator
+		nullptr,                   // Initial PipelineStateObject
+		IID_PPV_ARGS(m_commandList.GetAddressOf())));
+
+	// Start off in a closed state.  This is because the first time we refer 
+	// to the command list we will Reset it, and it needs to be closed before
+	// calling Reset.
+	m_commandList->Close();
+}
+
+void DX12CMDList::SetupDirectCMDList(const std::shared_ptr<DX12Device>& device)
+{
+
+	m_pDevice = device;
+
+	m_fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	if (m_fenceEvent == nullptr)
+	{
+		ThrowIfFailed(HRESULT_FROM_WIN32(GetLastError()));
+	}
+
+	ThrowIfFailed(m_pDevice->GetDX12Device()->CreateCommandList(
+		0,
+		D3D12_COMMAND_LIST_TYPE_DIRECT,
+		m_pDevice->GetCurrentCMDAlloctor(), // Associated command allocator
 		nullptr,                   // Initial PipelineStateObject
 		IID_PPV_ARGS(m_commandList.GetAddressOf())));
 
@@ -35,6 +65,54 @@ void DX12CMDList::Reset(const DX12Device* pDevice)
 	m_pCurrentPSO = NULL;
 	m_commandList->Reset(pDevice->GetCurrentCMDAlloctor(),nullptr);
 }
+
+void DX12CMDList::DrawInstanced(UINT vertecCount, UINT instanceCount, UINT startVertex, UINT startInstance)
+{
+	m_commandList->DrawInstanced(vertecCount, instanceCount, startVertex, startInstance);
+}
+
+void DX12CMDList::Sigal()
+{
+	ThrowIfFailed( m_pDevice->GetCMDQueue()->Signal(m_fence.Get(), m_fenceVal));
+	m_fenceVal++;
+}
+
+void DX12CMDList::Wait()
+{
+	if (m_fence->GetCompletedValue() <m_fenceVal)
+	{
+		
+		ThrowIfFailed(m_fence->SetEventOnCompletion(m_fenceVal, m_fenceEvent));
+		WaitForSingleObjectEx(m_fenceEvent, INFINITE, FALSE);
+	}
+}
+
+void DX12CMDList::SetDoneNum(UINT64 done)
+{
+	m_ListDone = done;
+}
+
+void DX12CMDList::SetVBO(const DX12VBO* pVbo)
+{
+	m_commandList->IASetPrimitiveTopology(pVbo->GetPrimitiveTopology());
+	m_commandList->IASetVertexBuffers(0, 1, pVbo->GetVBV());
+}
+
+void DX12CMDList::SetPSO(const DX12PSO* pPSO)
+{
+	if (m_pCurrentRootSig!= pPSO->m_pRootSig)
+	{
+		m_commandList->SetGraphicsRootSignature(pPSO->m_pRootSig->GetRootSig());
+		m_pCurrentRootSig = pPSO->m_pRootSig;
+	}
+
+	if (m_pCurrentPSO != pPSO)
+	{
+		m_commandList->SetPipelineState(pPSO->GetPipelineState());
+		m_pCurrentPSO = const_cast<DX12PSO*>(pPSO);
+	}
+}
+
 
 // void DX12CMDList::BeforeRender(const DX12Device* pDevice)
 // {
@@ -85,35 +163,3 @@ void DX12CMDList::Reset(const DX12Device* pDevice)
 // 
 // 	MoveToNextFrame();
 // }
-
-void DX12CMDList::DrawInstanced(UINT vertecCount, UINT instanceCount, UINT startVertex, UINT startInstance)
-{
-	m_commandList->DrawInstanced(vertecCount, instanceCount, startVertex, startInstance);
-}
-
-void DX12CMDList::SetDoneNum(UINT64 done)
-{
-	m_ListDone = done;
-}
-
-void DX12CMDList::SetVBO(const DX12VBO* pVbo)
-{
-	m_commandList->IASetPrimitiveTopology(pVbo->GetPrimitiveTopology());
-	m_commandList->IASetVertexBuffers(0, 1, pVbo->GetVBV());
-}
-
-void DX12CMDList::SetPSO(const DX12PSO* pPSO)
-{
-	if (m_pCurrentRootSig!= pPSO->m_pRootSig)
-	{
-		m_commandList->SetGraphicsRootSignature(pPSO->m_pRootSig->GetRootSig());
-		m_pCurrentRootSig = pPSO->m_pRootSig;
-	}
-
-	if (m_pCurrentPSO != pPSO)
-	{
-		m_commandList->SetPipelineState(pPSO->GetPipelineState());
-		m_pCurrentPSO = const_cast<DX12PSO*>(pPSO);
-	}
-}
-

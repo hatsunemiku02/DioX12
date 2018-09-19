@@ -6,6 +6,7 @@
 #include <DirectXMath.h>
 #include <wrl.h>
 #include <bitset>
+#include <vector>
 #include "d3dx12.h"
 #include "DX12DESCHandle.h"
 #define DescHeapMaxSize 4096
@@ -60,6 +61,11 @@ public:
 		return m_commandAllocators[m_frameIndex].Get();
 	}
 
+	ComPtr<ID3D12CommandQueue> GetCMDQueue() const
+	{
+		return m_commandQueue;
+	}
+
 	UINT GetCurrentFrameIndex() const
 	{
 		return m_frameIndex;
@@ -92,7 +98,10 @@ protected:
 
 protected:
 	ComPtr<ID3D12Device> m_device;
+
+
 	ComPtr<ID3D12CommandAllocator> m_commandAllocators[FrameCount];
+
 	ComPtr<ID3D12CommandQueue> m_commandQueue;
 	ComPtr<ID3D12RootSignature> m_rootSignature;
 	
